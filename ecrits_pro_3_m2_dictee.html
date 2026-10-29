@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dictée n°3 — Écrits professionnels 3/6 | TMK Performances</title>
+<style>
+:root{--prune:#8C1E70;--prune-f:#5E1349;--prune-c:#F4E6EE;--gris:#3C3C3C;--gm:#8A7A85;--trame:#E8DCE5;--fond:#FAF6F8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--gris);background:#fff;padding:18px 16px 28px;line-height:1.5;
+  -webkit-user-select:none;user-select:none}
+.marque{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--prune)}
+h1{font-size:20px;color:var(--prune-f);margin:4px 0 12px}
+.consigne{background:var(--prune-c);border-left:3px solid var(--prune);padding:10px 12px;font-size:14px;margin-bottom:16px}
+.consigne ul{margin:6px 0 0 18px}
+.mots{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.mots span{background:#fff;border:1px solid var(--trame);padding:2px 8px;font-size:13px}
+.etape{border:1px solid var(--trame);border-top:3px solid var(--prune);padding:14px;margin-bottom:14px}
+.etape h2{font-size:15px;color:var(--prune-f);margin-bottom:6px}
+.etape p{font-size:14px}
+.muted{color:var(--gm);font-size:13px}
+.icone{display:flex;align-items:center;gap:14px;margin-top:10px}
+.rond{width:68px;height:68px;border-radius:50%;border:0;background:var(--prune);color:#fff;cursor:pointer;flex:none;
+  display:flex;align-items:center;justify-content:center}
+.rond:hover{background:var(--prune-f)}
+.rond:disabled{background:var(--trame);cursor:default}
+.rond svg{width:28px;height:28px;fill:#fff}
+.barre{height:6px;background:var(--trame);border-radius:3px;overflow:hidden;margin-top:10px}
+.barre i{display:block;height:100%;width:0;background:var(--prune)}
+.temps{font-size:13px;color:var(--gm);margin-top:4px;font-variant-numeric:tabular-nums}
+.verrou{opacity:.45;pointer-events:none}
+.commandes{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.btn{border:1px solid var(--prune);background:#fff;color:var(--prune-f);padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;border-radius:2px}
+.btn:hover{background:var(--prune-c)}
+.btn.plein{background:var(--prune);color:#fff}
+.btn.plein:hover{background:var(--prune-f)}
+.btn[aria-pressed="true"]{background:var(--prune-f);color:#fff;border-color:var(--prune-f)}
+input[type=range]{width:100%;accent-color:var(--prune);margin-top:10px}
+.vitesse{display:flex;gap:6px;align-items:center;font-size:14px}
+.fin{font-size:13px;color:var(--prune-f);margin-top:10px;font-weight:700}
+</style>
+</head>
+<body>
+<p class="marque">TMK Performances · Écrits professionnels 3/6</p>
+<h1>Dictée n°3</h1>
+
+<div class="consigne">
+  <strong>Consigne.</strong> Écrivez le texte de la dictée dans la zone de réponse. Soyez attentif aux participes passés : ils sont nombreux.
+  <ul><li>Écrivez les nombres en chiffres.</li><li>Aucun correcteur ne vous aide : relisez-vous.</li></ul>
+  <div style="margin-top:8px">Anglicismes et noms propres :</div>
+  <div class="mots"><span>cross-canal</span><span>Spartoo</span><span>antispam</span><span>online</span><span>offline</span><span>pure players</span><span>QR codes</span><span>Big Data</span></div>
+</div>
+
+<div class="etape" id="e1">
+  <h2>1. Première écoute</h2>
+  <p>Écoutez la dictée une première fois, en entier et sans l'interrompre. Vous pouvez commencer à écrire.</p>
+  <div class="icone">
+    <button class="rond" id="lancer" aria-label="Lancer la première écoute">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <div style="flex:1">
+      <div class="barre"><i id="b1"></i></div>
+      <div class="temps" id="t1">Durée : 13 min 29</div>
+    </div>
+  </div>
+  <p class="fin" id="fin1" hidden>Première écoute terminée.</p>
+</div>
+
+<div class="etape verrou" id="e2" aria-disabled="true">
+  <h2>2. Écoute de travail</h2>
+  <p>Réécoutez la dictée à votre rythme pour compléter et corriger votre texte.</p>
+  <p class="muted" id="msg2">Disponible après la première écoute.</p>
+  <input type="range" id="pos" min="0" max="809" step="1" value="0" aria-label="Position dans l'enregistrement">
+  <div class="temps" id="t2">0:00 / 13:29</div>
+  <div class="commandes">
+    <button class="btn" id="r15">« 15 s</button>
+    <button class="btn" id="r5">« 5 s</button>
+    <button class="btn plein" id="lp">Lecture</button>
+    <button class="btn" id="a5">5 s »</button>
+    <span class="vitesse">Débit :
+      <button class="btn" data-v="0.75" aria-pressed="false">0,75×</button>
+      <button class="btn" data-v="0.9" aria-pressed="false">0,9×</button>
+      <button class="btn" data-v="1" aria-pressed="true">1×</button>
+    </span>
+  </div>
+</div>
+
+<audio id="audio" preload="metadata" src="ecrits_pro_3_m2_dictee.mp4"></audio>
+
+<script>
+(function () {
+  var A = document.getElementById('audio');
+  var CLE = 'tmk_ep3_dictee_ecoute1';
+  var phase = 1;
+  function lu() { try { return localStorage.getItem(CLE) === '1'; } catch (e) { return false; } }
+  function noter() { try { localStorage.setItem(CLE, '1'); } catch (e) {} }
+  function mmss(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  var duree = 809;
+  A.addEventListener('loadedmetadata', function () { if (isFinite(A.duration)) { duree = A.duration; document.getElementById('pos').max = Math.floor(duree); majT2(); } });
+
+  /* ---- Phase 1 : écoute continue, sans pause ni retour ---- */
+  var lancer = document.getElementById('lancer');
+  lancer.addEventListener('click', function () {
+    phase = 1; A.currentTime = 0; A.playbackRate = 1; A.play();
+    lancer.disabled = true; lancer.setAttribute('aria-label', 'Écoute en cours');
+  });
+  var dernier = 0;
+  A.addEventListener('timeupdate', function () {
+    if (phase === 1) {
+      if (A.currentTime > dernier + 2) A.currentTime = dernier; /* pas de saut en avant */
+      dernier = Math.max(dernier, A.currentTime);
+      document.getElementById('b1').style.width = (100 * A.currentTime / duree) + '%';
+      document.getElementById('t1').textContent = mmss(A.currentTime) + ' / ' + mmss(duree);
+    } else majT2();
+  });
+  A.addEventListener('pause', function () { if (phase === 1 && !A.ended && lancer.disabled) A.play(); });
+  A.addEventListener('ended', function () {
+    if (phase === 1) { noter(); ouvrirPhase2(); }
+    else document.getElementById('lp').textContent = 'Lecture';
+  });
+
+  /* ---- Phase 2 : écoute de travail ---- */
+  function ouvrirPhase2() {
+    phase = 2;
+    document.getElementById('b1').style.width = '100%';
+    document.getElementById('fin1').hidden = false;
+    lancer.disabled = true;
+    var e2 = document.getElementById('e2');
+    e2.classList.remove('verrou'); e2.removeAttribute('aria-disabled');
+    document.getElementById('msg2').hidden = true;
+    A.currentTime = 0; majT2();
+  }
+  function majT2() {
+    document.getElementById('pos').value = Math.floor(A.currentTime);
+    document.getElementById('t2').textContent = mmss(A.currentTime) + ' / ' + mmss(duree);
+  }
+  function deplacer(d) { A.currentTime = Math.min(duree, Math.max(0, A.currentTime + d)); majT2(); }
+  document.getElementById('r15').onclick = function () { deplacer(-15); };
+  document.getElementById('r5').onclick = function () { deplacer(-5); };
+  document.getElementById('a5').onclick = function () { deplacer(5); };
+  var lp = document.getElementById('lp');
+  lp.onclick = function () { if (A.paused) { A.play(); lp.textContent = 'Pause'; } else { A.pause(); lp.textContent = 'Lecture'; } };
+  document.getElementById('pos').addEventListener('input', function () { A.currentTime = +this.value; majT2(); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-v]'), function (b) {
+    b.onclick = function () {
+      A.playbackRate = parseFloat(b.getAttribute('data-v'));
+      Array.prototype.forEach.call(document.querySelectorAll('[data-v]'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    };
+  });
+  /* Pas de copie depuis cette page */
+  ['copy', 'cut', 'contextmenu'].forEach(function (t) { document.addEventListener(t, function (ev) { ev.preventDefault(); }); });
+
+  if (lu()) ouvrirPhase2();
+})();
+</script>
+</body>
+</html>
